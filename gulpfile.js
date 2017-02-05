@@ -1,6 +1,7 @@
 var gulp   = require('gulp');
 var sass   = require('gulp-sass');
 var ts     = require('gulp-typescript');
+var tslint = require('gulp-tslint');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var bSync  = require('browser-sync').create();
@@ -15,7 +16,16 @@ gulp.task('sass', function() {
         .pipe(bSync.stream());
 });
 
-gulp.task('typescript', function() {
+gulp.task('lint', function() {
+    return gulp
+        .src('./src/typescript/*.ts')
+        .pipe(tslint({
+            formatter: "stylish"
+        }))
+        .pipe(tslint.report({emitError: false}))
+});
+
+gulp.task('typescript', ['lint'], function() {
     var result = tsConfig
         .src()
         .pipe(tsConfig());
@@ -54,6 +64,7 @@ gulp.task('run', ['sass', 'typescript'], function() {
         }
     });
 
+    gulp.watch('./build/index.html').on('change', bSync.reload);
     gulp.watch('./src/sass/*.scss', ['sass']);
     gulp.watch('./src/typescript/*.ts', ['watch:typescript']);
 });
