@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "amd",
         "target": "es5",
         "noImplicitAny": true,
-        "sourceMap": false,
         "removeComments": true,
-        "outDir": "./build/js"
+        "outDir": "./build/js",
+        "outFile": "main.js"
     },
     "include": [
-        "./src/typescript/*.ts"
+        "./source/typescript/*.ts"
     ]
 }
